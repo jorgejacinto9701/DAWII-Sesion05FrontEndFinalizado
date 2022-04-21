@@ -4,26 +4,25 @@ import { Observable } from 'rxjs';
 import { Ubigeo } from '../models/ubigeo.model';
 
 
-const baseUrl = 'http://localhost:8090/rest/util';
+const baseUrl = "http://localhost:8090/rest/util/";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UbigeoService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private hhtp:HttpClient) { }
 
-
-  listarDepartamento(): Observable<string[]>{
-    return this.http.get<string[]>(baseUrl+"/listaDepartamentos");
+  listaDepartamento():Observable<string[]>{
+      return this.hhtp.get<string[]>(baseUrl+"listaDepartamentos");
   }
 
-  listaProvincias(paramDep:any): Observable<string[]>{
-    return this.http.get<string[]>(baseUrl+"/listaProvincias/"+paramDep);
+  listaProvincia(departamento:any):Observable<string[]>{
+      return this.hhtp.get<string[]>(baseUrl+"listaProvincias/"+departamento);
   }
 
-  listaDistritos(paramDep:any,paramProv:any): Observable<Ubigeo[]>{
-    return this.http.get<Ubigeo[]>(baseUrl+"/listaDistritos/"+paramDep+"/"+paramProv);
+  listaDistrito(departamento:any, provincia:any):Observable<Ubigeo[]>{
+    return this.hhtp.get<Ubigeo[]>(baseUrl+"listaDistritos/"+departamento+"/"+provincia);
   }
 
 

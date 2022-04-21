@@ -11,55 +11,59 @@ import { UbigeoService } from 'src/app/services/ubigeo.service';
 })
 export class AddDocenteComponent implements OnInit {
 
-  departamentos : string[] = [];
-  provincias : string[] = [];
-  distritos : Ubigeo[] = [];
+  //Variables globales para los combobox
+  departamentos: string[] = [];
+  provincias: string[] = [];
+  distritos: Ubigeo[] = [];
 
-  docente: Docente = { 
-    ubigeo:{
-      idUbigeo:-1,
-      departamento:"-1",
-      provincia:"-1",
-      distrito:"",
-    }
-  };
+  //Variables seleccionadas
+  docente: Docente = {
+      ubigeo:{
+        idUbigeo:-1,
+        departamento:"-1",
+        provincia:"-1",
+        distrito:"",
+      }
+  }
 
-  constructor(private ubigeoService:UbigeoService, 
-              private docenteService:DocenteService) { 
-
-         this.ubigeoService.listarDepartamento().subscribe(
-               (departamentos) => this.departamentos = departamentos
+  constructor(private ubigeoService:UbigeoService, private docenteService:DocenteService) { 
+         this.ubigeoService.listaDepartamento().subscribe(
+               (x) => this.departamentos = x
          );
-
   }
 
-  registraDocente(){
-      console.log(this.docente);
-      this.docenteService.registrar(this.docente).subscribe(
-          response => {
-              console.log(response.mensaje);
-              alert(response.mensaje);
-            },
-            error => {
-              console.log(error);
-            },
-      );
-  }
-
-  listaProvincia(){
-      console.log("listaProvincia>>> " + this.docente.ubigeo?.departamento);
-      this.ubigeoService.listaProvincias(this.docente.ubigeo?.departamento).subscribe(
-          (provincias) => this.provincias = provincias
-      );
-  }
-
-  listaDistrito(){
-    console.log("listaDistrito>>> " + this.docente.ubigeo?.departamento);
-    console.log("listaDistrito>>> " + this.docente.ubigeo?.provincia);
-    this.ubigeoService.listaDistritos(this.docente.ubigeo?.departamento,this.docente.ubigeo?.provincia).subscribe(
-        (distritos) => this.distritos = distritos
+  cargaProvincia(){
+    console.log(">>> Carga Provincia >> ");
+    console.log(">>> Departamento >> " + this.docente.ubigeo?.departamento);
+    
+    this.ubigeoService.listaProvincia(this.docente.ubigeo?.departamento).subscribe(
+            (x) => this.provincias = x
     );
-}
+
+    this.docente.ubigeo!.provincia = "-1";
+    this.distritos = [];
+    this.docente.ubigeo!.idUbigeo = -1;
+
+  }
+
+  cargaDistrito(){
+    console.log(">>> Carga Distrito >> ");
+    console.log(">>> Departamento >> " + this.docente.ubigeo?.departamento);
+    console.log(">>> Provincia >> " + this.docente.ubigeo?.provincia);
+
+    this.ubigeoService.listaDistrito(this.docente.ubigeo?.departamento, this.docente.ubigeo?.provincia).subscribe(
+            (x) => this.distritos = x
+      );
+
+    this.docente.ubigeo!.idUbigeo = -1;
+  }
+
+
+  insertado(){
+        this.docenteService.registraDocente(this.docente).subscribe(
+          (x) => alert(x.mensaje)
+        );
+  }
 
   ngOnInit(): void {
   }

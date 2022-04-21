@@ -1,6 +1,6 @@
 <div>
 
-    <form class="content"  (submit)= "registraDocente()" >
+    <form class="content"  (submit)= "insertado()" >
     <div class="submit-form" >
   
          <div class="row">
@@ -25,7 +25,7 @@
 
             <div class="col-lg-4">
                 <label for="departamento">Departamento</label>
-                <select  id="departamento" name="departamento" class="form-control"  [(ngModel)] = "docente.ubigeo!.departamento" (change)="listaProvincia()">
+                <select  id="departamento" name="departamento" class="form-control"  [(ngModel)] = "docente.ubigeo!.departamento" (change)="cargaProvincia()">
                     <option value="-1"> [Seleccione] </option>   
                     <option *ngFor="let aux of departamentos" value="{{aux}}">
                         {{aux}}
@@ -35,7 +35,7 @@
 
             <div class="col-lg-4">
                 <label for="provincia">Provincia</label>
-                <select  id="provincia" name="provincia" class="form-control"  [(ngModel)] = "docente.ubigeo!.provincia" (change)="listaDistrito()">
+                <select  id="provincia" name="provincia" class="form-control"  [(ngModel)] = "docente.ubigeo!.provincia" (change)="cargaDistrito()">
                     <option value="-1"> [Seleccione] </option>   
                     <option *ngFor="let aux of provincias" value="{{aux}}">
                         {{aux}}
